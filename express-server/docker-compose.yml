@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   mysql-db:
-    image: inf25dw1g10/mysql-db:m2
+    image: inf25dw1g10/mysql-db:m3
     container_name: mysql-db
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
       - schoolnet
 
   api-horarios:
-    image: inf25dw1g10/api-horarios:m2
+    image: inf25dw1g10/api-horarios:m3
     container_name: api-horarios
     restart: always
     depends_on:
