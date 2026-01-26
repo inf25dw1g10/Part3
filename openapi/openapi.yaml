@@ -1,0 +1,547 @@
+openapi: 3.0.0
+
+info:
+  title: Gestão de Horários Escolares
+  version: 1.0.0
+  description: API REST para gerir alunos, professores, salas, aulas e horários.
+  contact:
+    name: Igor Carlos Santos Cruz
+    email: A043765@umaia.pt
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+
+  ############################
+  # ALUNOS
+  ############################
+
+  /alunos:
+    get:
+      tags: [Alunos]
+      summary: Lista todos os alunos
+      operationId: retrieveAlunos
+      responses:
+        '200':
+          description: Lista de alunos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aluno'
+
+    post:
+      tags: [Alunos]
+      summary: Cria um novo aluno
+      operationId: createAluno
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+            examples:
+              exemplo1:
+                $ref: '#/components/examples/AlunoExample01'
+      responses:
+        '201':
+          description: Aluno criado
+
+  /alunos/{id_aluno}:
+    get:
+      tags: [Alunos]
+      summary: Obtém aluno por ID
+      operationId: retrieveAluno
+      parameters:
+        - name: id_aluno
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Aluno encontrado
+        '404':
+          description: Não encontrado
+
+    put:
+      tags: [Alunos]
+      summary: Atualiza aluno por ID
+      operationId: updateAluno
+      parameters:
+        - name: id_aluno
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+      responses:
+        '200':
+          description: Aluno atualizado
+
+    delete:
+      tags: [Alunos]
+      summary: Remove aluno por ID
+      operationId: deleteAluno
+      parameters:
+        - name: id_aluno
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Aluno removido
+
+
+  ############################
+  # PROFESSORES
+  ############################
+
+  /professores:
+    get:
+      tags: [Professores]
+      summary: Lista todos os professores
+      operationId: retrieveProfessores
+      responses:
+        '200':
+          description: Lista de professores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professor'
+
+    post:
+      tags: [Professores]
+      summary: Cria um novo professor
+      operationId: createProfessor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        '201':
+          description: Professor criado
+
+  /professores/{id_professor}:
+    get:
+      tags: [Professores]
+      summary: Obtém professor por ID
+      operationId: retrieveProfessor
+      parameters:
+        - name: id_professor
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Professor encontrado
+        '404':
+          description: Não encontrado
+
+    put:
+      tags: [Professores]
+      summary: Atualiza professor por ID
+      operationId: updateProfessor
+      parameters:
+        - name: id_professor
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        '200':
+          description: Professor atualizado
+
+    delete:
+      tags: [Professores]
+      summary: Remove professor por ID
+      operationId: deleteProfessor
+      parameters:
+        - name: id_professor
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Professor removido
+
+
+  ############################
+  # SALAS
+  ############################
+
+  /salas:
+    get:
+      tags: [Salas]
+      summary: Lista todas as salas
+      operationId: retrieveSalas
+      responses:
+        '200':
+          description: Lista de salas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sala'
+
+    post:
+      tags: [Salas]
+      summary: Cria uma nova sala
+      operationId: createSala
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sala'
+      responses:
+        '201':
+          description: Sala criada
+
+  /salas/{id_sala}:
+    get:
+      tags: [Salas]
+      summary: Obtém sala por ID
+      operationId: retrieveSala
+      parameters:
+        - name: id_sala
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sala encontrada
+        '404':
+          description: Não encontrada
+
+    put:
+      tags: [Salas]
+      summary: Atualiza sala por ID
+      operationId: updateSala
+      parameters:
+        - name: id_sala
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sala'
+      responses:
+        '200':
+          description: Sala atualizada
+
+    delete:
+      tags: [Salas]
+      summary: Remove sala por ID
+      operationId: deleteSala
+      parameters:
+        - name: id_sala
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Sala removida
+
+
+  ############################
+  # AULAS
+  ############################
+
+  /aulas:
+    get:
+      tags: [Aulas]
+      summary: Lista todas as aulas
+      operationId: retrieveAulas
+      responses:
+        '200':
+          description: Lista de aulas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aula'
+
+    post:
+      tags: [Aulas]
+      summary: Cria uma nova aula
+      operationId: createAula
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aula'
+      responses:
+        '201':
+          description: Aula criada
+
+  /aulas/{id_aula}:
+    get:
+      tags: [Aulas]
+      summary: Obtém aula por ID
+      operationId: retrieveAula
+      parameters:
+        - name: id_aula
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Aula encontrada
+        '404':
+          description: Não encontrada
+
+    put:
+      tags: [Aulas]
+      summary: Atualiza aula por ID
+      operationId: updateAula
+      parameters:
+        - name: id_aula
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aula'
+      responses:
+        '200':
+          description: Aula atualizada
+
+    delete:
+      tags: [Aulas]
+      summary: Remove aula por ID
+      operationId: deleteAula
+      parameters:
+        - name: id_aula
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Aula removida
+
+
+  ############################
+  # HORARIOS (relação N:1 com Sala, Professor, Aula)
+  ############################
+
+  /horarios:
+    get:
+      tags: [Horarios]
+      summary: Lista todos os horários
+      operationId: retrieveHorarios
+      responses:
+        '200':
+          description: Lista de horários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Horario'
+
+    post:
+      tags: [Horarios]
+      summary: Cria um novo horário
+      operationId: createHorario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Horario'
+      responses:
+        '201':
+          description: Horário criado
+
+  /horarios/{id_horario}:
+    get:
+      tags: [Horarios]
+      summary: Obtém horário por ID
+      operationId: retrieveHorario
+      parameters:
+        - name: id_horario
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Horário encontrado
+        '404':
+          description: Não encontrado
+
+    put:
+      tags: [Horarios]
+      summary: Atualiza horário por ID
+      operationId: updateHorario
+      parameters:
+        - name: id_horario
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Horario'
+      responses:
+        '200':
+          description: Horário atualizado
+
+    delete:
+      tags: [Horarios]
+      summary: Remove horário por ID
+      operationId: deleteHorario
+      parameters:
+        - name: id_horario
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Horário removido
+
+
+components:
+
+  ############################
+  # SCHEMAS
+  ############################
+
+  schemas:
+
+    Aluno:
+      type: object
+      properties:
+        id_aluno:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        curso:
+          type: string
+      required:
+        - nome
+        - email
+        - curso
+
+    Professor:
+      type: object
+      properties:
+        id_professor:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        departamento:
+          type: string
+      required:
+        - nome
+        - email
+        - departamento
+
+    Sala:
+      type: object
+      properties:
+        id_sala:
+          type: integer
+        nome:
+          type: string
+        capacidade:
+          type: integer
+      required:
+        - nome
+        - capacidade
+
+    Aula:
+      type: object
+      properties:
+        id_aula:
+          type: integer
+        disciplina:
+          type: string
+        id_professor:
+          type: integer
+      required:
+        - disciplina
+        - id_professor
+
+    Horario:
+      type: object
+      properties:
+        id_horario:
+          type: integer
+        dia_semana:
+          type: string
+        hora_inicio:
+          type: string
+        hora_fim:
+          type: string
+        id_sala:
+          type: integer
+        id_professor:
+          type: integer
+        id_aula:
+          type: integer
+      required:
+        - dia_semana
+        - hora_inicio
+        - hora_fim
+        - id_sala
+        - id_professor
+        - id_aula
+
+
+  ############################
+  # EXAMPLES
+  ############################
+
+  examples:
+
+    AlunoExample01:
+      value:
+        nome: "Ana Silva"
+        email: "ana.silva@umaia.pt"
+        curso: "Informática"

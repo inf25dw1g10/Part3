@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# OpenAPI generator cache
+express-server/.openapi-generator/
+
+# Temporary files
+*.tmp
+*.log
+
+# VS Code
+.vscode/
+.idea/
+node_modules/sqlstring/lib/SqlString.js
+node_modules/sqlstring/lib/SqlString.js

@@ -1,0 +1,582 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: A043765@umaia.pt
+    name: Igor Carlos Santos Cruz
+  description: "API REST para gerir alunos, professores, salas, aulas e horários."
+  title: Gestão de Horários Escolares
+  version: 1.0.0
+servers:
+- description: Servidor local
+  url: http://localhost:8080
+paths:
+  /alunos:
+    get:
+      operationId: retrieveAlunos
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Aluno"
+                type: array
+          description: Lista de alunos
+      summary: Lista todos os alunos
+      tags:
+      - Alunos
+      x-eov-operation-handler: controllers/AlunosController
+    post:
+      operationId: createAluno
+      requestBody:
+        content:
+          application/json:
+            examples:
+              exemplo1:
+                $ref: "#/components/examples/AlunoExample01"
+            schema:
+              $ref: "#/components/schemas/Aluno"
+        required: true
+      responses:
+        "201":
+          description: Aluno criado
+      summary: Cria um novo aluno
+      tags:
+      - Alunos
+      x-eov-operation-handler: controllers/AlunosController
+  /alunos/{id_aluno}:
+    delete:
+      operationId: deleteAluno
+      parameters:
+      - explode: false
+        in: path
+        name: id_aluno
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Aluno removido
+      summary: Remove aluno por ID
+      tags:
+      - Alunos
+      x-eov-operation-handler: controllers/AlunosController
+    get:
+      operationId: retrieveAluno
+      parameters:
+      - explode: false
+        in: path
+        name: id_aluno
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Aluno encontrado
+        "404":
+          description: Não encontrado
+      summary: Obtém aluno por ID
+      tags:
+      - Alunos
+      x-eov-operation-handler: controllers/AlunosController
+    put:
+      operationId: updateAluno
+      parameters:
+      - explode: false
+        in: path
+        name: id_aluno
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aluno"
+        required: true
+      responses:
+        "200":
+          description: Aluno atualizado
+      summary: Atualiza aluno por ID
+      tags:
+      - Alunos
+      x-eov-operation-handler: controllers/AlunosController
+  /professores:
+    get:
+      operationId: retrieveProfessores
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Professor"
+                type: array
+          description: Lista de professores
+      summary: Lista todos os professores
+      tags:
+      - Professores
+      x-eov-operation-handler: controllers/ProfessoresController
+    post:
+      operationId: createProfessor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Professor"
+        required: true
+      responses:
+        "201":
+          description: Professor criado
+      summary: Cria um novo professor
+      tags:
+      - Professores
+      x-eov-operation-handler: controllers/ProfessoresController
+  /professores/{id_professor}:
+    delete:
+      operationId: deleteProfessor
+      parameters:
+      - explode: false
+        in: path
+        name: id_professor
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Professor removido
+      summary: Remove professor por ID
+      tags:
+      - Professores
+      x-eov-operation-handler: controllers/ProfessoresController
+    get:
+      operationId: retrieveProfessor
+      parameters:
+      - explode: false
+        in: path
+        name: id_professor
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Professor encontrado
+        "404":
+          description: Não encontrado
+      summary: Obtém professor por ID
+      tags:
+      - Professores
+      x-eov-operation-handler: controllers/ProfessoresController
+    put:
+      operationId: updateProfessor
+      parameters:
+      - explode: false
+        in: path
+        name: id_professor
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Professor"
+        required: true
+      responses:
+        "200":
+          description: Professor atualizado
+      summary: Atualiza professor por ID
+      tags:
+      - Professores
+      x-eov-operation-handler: controllers/ProfessoresController
+  /salas:
+    get:
+      operationId: retrieveSalas
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Sala"
+                type: array
+          description: Lista de salas
+      summary: Lista todas as salas
+      tags:
+      - Salas
+      x-eov-operation-handler: controllers/SalasController
+    post:
+      operationId: createSala
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sala"
+        required: true
+      responses:
+        "201":
+          description: Sala criada
+      summary: Cria uma nova sala
+      tags:
+      - Salas
+      x-eov-operation-handler: controllers/SalasController
+  /salas/{id_sala}:
+    delete:
+      operationId: deleteSala
+      parameters:
+      - explode: false
+        in: path
+        name: id_sala
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Sala removida
+      summary: Remove sala por ID
+      tags:
+      - Salas
+      x-eov-operation-handler: controllers/SalasController
+    get:
+      operationId: retrieveSala
+      parameters:
+      - explode: false
+        in: path
+        name: id_sala
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Sala encontrada
+        "404":
+          description: Não encontrada
+      summary: Obtém sala por ID
+      tags:
+      - Salas
+      x-eov-operation-handler: controllers/SalasController
+    put:
+      operationId: updateSala
+      parameters:
+      - explode: false
+        in: path
+        name: id_sala
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sala"
+        required: true
+      responses:
+        "200":
+          description: Sala atualizada
+      summary: Atualiza sala por ID
+      tags:
+      - Salas
+      x-eov-operation-handler: controllers/SalasController
+  /aulas:
+    get:
+      operationId: retrieveAulas
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Aula"
+                type: array
+          description: Lista de aulas
+      summary: Lista todas as aulas
+      tags:
+      - Aulas
+      x-eov-operation-handler: controllers/AulasController
+    post:
+      operationId: createAula
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aula"
+        required: true
+      responses:
+        "201":
+          description: Aula criada
+      summary: Cria uma nova aula
+      tags:
+      - Aulas
+      x-eov-operation-handler: controllers/AulasController
+  /aulas/{id_aula}:
+    delete:
+      operationId: deleteAula
+      parameters:
+      - explode: false
+        in: path
+        name: id_aula
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Aula removida
+      summary: Remove aula por ID
+      tags:
+      - Aulas
+      x-eov-operation-handler: controllers/AulasController
+    get:
+      operationId: retrieveAula
+      parameters:
+      - explode: false
+        in: path
+        name: id_aula
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Aula encontrada
+        "404":
+          description: Não encontrada
+      summary: Obtém aula por ID
+      tags:
+      - Aulas
+      x-eov-operation-handler: controllers/AulasController
+    put:
+      operationId: updateAula
+      parameters:
+      - explode: false
+        in: path
+        name: id_aula
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Aula"
+        required: true
+      responses:
+        "200":
+          description: Aula atualizada
+      summary: Atualiza aula por ID
+      tags:
+      - Aulas
+      x-eov-operation-handler: controllers/AulasController
+  /horarios:
+    get:
+      operationId: retrieveHorarios
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Horario"
+                type: array
+          description: Lista de horários
+      summary: Lista todos os horários
+      tags:
+      - Horarios
+      x-eov-operation-handler: controllers/HorariosController
+    post:
+      operationId: createHorario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Horario"
+        required: true
+      responses:
+        "201":
+          description: Horário criado
+      summary: Cria um novo horário
+      tags:
+      - Horarios
+      x-eov-operation-handler: controllers/HorariosController
+  /horarios/{id_horario}:
+    delete:
+      operationId: deleteHorario
+      parameters:
+      - explode: false
+        in: path
+        name: id_horario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Horário removido
+      summary: Remove horário por ID
+      tags:
+      - Horarios
+      x-eov-operation-handler: controllers/HorariosController
+    get:
+      operationId: retrieveHorario
+      parameters:
+      - explode: false
+        in: path
+        name: id_horario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Horário encontrado
+        "404":
+          description: Não encontrado
+      summary: Obtém horário por ID
+      tags:
+      - Horarios
+      x-eov-operation-handler: controllers/HorariosController
+    put:
+      operationId: updateHorario
+      parameters:
+      - explode: false
+        in: path
+        name: id_horario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Horario"
+        required: true
+      responses:
+        "200":
+          description: Horário atualizado
+      summary: Atualiza horário por ID
+      tags:
+      - Horarios
+      x-eov-operation-handler: controllers/HorariosController
+components:
+  examples:
+    AlunoExample01:
+      value:
+        nome: Ana Silva
+        email: ana.silva@umaia.pt
+        curso: Informática
+  schemas:
+    Aluno:
+      example:
+        curso: curso
+        id_aluno: 0
+        nome: nome
+        email: email
+      properties:
+        id_aluno:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        curso:
+          type: string
+      required:
+      - curso
+      - email
+      - nome
+      type: object
+    Professor:
+      example:
+        departamento: departamento
+        id_professor: 0
+        nome: nome
+        email: email
+      properties:
+        id_professor:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        departamento:
+          type: string
+      required:
+      - departamento
+      - email
+      - nome
+      type: object
+    Sala:
+      example:
+        id_sala: 0
+        capacidade: 6
+        nome: nome
+      properties:
+        id_sala:
+          type: integer
+        nome:
+          type: string
+        capacidade:
+          type: integer
+      required:
+      - capacidade
+      - nome
+      type: object
+    Aula:
+      example:
+        id_aula: 0
+        disciplina: disciplina
+        id_professor: 6
+      properties:
+        id_aula:
+          type: integer
+        disciplina:
+          type: string
+        id_professor:
+          type: integer
+      required:
+      - disciplina
+      - id_professor
+      type: object
+    Horario:
+      example:
+        id_sala: 6
+        hora_inicio: hora_inicio
+        id_aula: 5
+        id_professor: 1
+        hora_fim: hora_fim
+        id_horario: 0
+        dia_semana: dia_semana
+      properties:
+        id_horario:
+          type: integer
+        dia_semana:
+          type: string
+        hora_inicio:
+          type: string
+        hora_fim:
+          type: string
+        id_sala:
+          type: integer
+        id_professor:
+          type: integer
+        id_aula:
+          type: integer
+      required:
+      - dia_semana
+      - hora_fim
+      - hora_inicio
+      - id_aula
+      - id_professor
+      - id_sala
+      type: object

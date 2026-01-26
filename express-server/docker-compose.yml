@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mysql-db:
+    image: inf25dw1g10/mysql-db:m2
+    container_name: mysql-db
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - schoolnet
+
+  api-horarios:
+    image: inf25dw1g10/api-horarios:m2
+    container_name: api-horarios
+    restart: always
+    depends_on:
+      - mysql-db
+    environment:
+      DB_HOST: mysql-db
+      DB_USER: root
+      DB_PASSWORD: Igor1234!
+      DB_NAME: school
+    ports:
+      - "8080:8080"
+    networks:
+      - schoolnet
+
+volumes:
+  mysql_data:
+
+networks:
+  schoolnet:
+
