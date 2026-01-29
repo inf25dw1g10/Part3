@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Horario} from './horario.model';
 
 @model({
   settings: {
@@ -26,6 +27,8 @@ export class Sala extends Entity {
   })
   capacidade: number;
 
+  @hasMany(() => Horario, {keyTo: 'id_sala'})
+  horarios: Horario[];
 
   constructor(data?: Partial<Sala>) {
     super(data);

@@ -1,5 +1,7 @@
 import {Entity, model, property, belongsTo} from '@loopback/repository';
 import {Professor} from './professor.model';
+import {Sala} from './sala.model';
+import {Aula} from './aula.model';
 
 @model({
   settings: {
@@ -32,21 +34,14 @@ export class Horario extends Entity {
     required: true,
   })
   hora_fim: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  id_sala: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  id_aula: number;
-
   @belongsTo(() => Professor, {name: 'professor'})
   id_professor: number;
+
+  @belongsTo(() => Sala, {name: 'sala'})
+  id_sala: number;
+
+  @belongsTo(() => Aula, {name: 'aula'})
+  id_aula: number;
 
   constructor(data?: Partial<Horario>) {
     super(data);
