@@ -1,6 +1,12 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Professor} from './professor.model';
 
-@model()
+@model({
+  settings: {
+    strict: true,
+    mysql: {table: 'Horarios'}
+  }
+})
 export class Horario extends Entity {
   @property({
     type: 'number',
@@ -39,6 +45,8 @@ export class Horario extends Entity {
   })
   id_aula: number;
 
+  @belongsTo(() => Professor, {name: 'professor'})
+  id_professor: number;
 
   constructor(data?: Partial<Horario>) {
     super(data);
