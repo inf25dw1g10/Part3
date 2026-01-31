@@ -18,6 +18,15 @@ export class Parte3M3Application extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
+    this.restServer.config.cors = {
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
+      maxAge: 86400,
+      credentials: true,
+    };
+
     // Set up the custom sequence
     this.sequence(MySequence);
 
