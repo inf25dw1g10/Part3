@@ -7,7 +7,7 @@ import {
 import simpleRestProvider from "ra-data-simple-rest";
 import { Dashboard } from "./Dashboard";
 
-const baseProvider = simpleRestProvider("http://localhost:3000");
+const baseProvider = simpleRestProvider("http://localhost:8080");
 
 const dataProvider = {
     ...baseProvider,

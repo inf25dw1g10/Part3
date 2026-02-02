@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   mysql-db:
-    image: inf25dw1g10/mysql-db:m3
+    # Build local para garantir que o school.sql é incluído
+    build: ../mysql-db 
+    image: inf24dw1g10/mysql-db:m3
     container_name: mysql-db
     restart: always
     ports:
@@ -13,9 +15,9 @@ services:
       - schoolnet
 
   api-horarios:
-    image: inf25dw1g10/api-horarios:m3
+    build: ../parte-3-m3 # Caminho para a pasta da API Loopback
+    image: inf24dw1g10/api-horarios:m3
     container_name: api-horarios
-    restart: always
     depends_on:
       - mysql-db
     environment:
@@ -24,7 +26,16 @@ services:
       DB_PASSWORD: Igor1234!
       DB_NAME: school
     ports:
-      - "8080:8080"
+      - "8080:3000"
+    networks:
+      - schoolnet
+
+  react-admin:
+    build: ../admin
+    image: inf24dw1g10/react-admin:m3
+    container_name: react-admin
+    ports:
+      - "3001:80"
     networks:
       - schoolnet
 
@@ -33,4 +44,3 @@ volumes:
 
 networks:
   schoolnet:
-

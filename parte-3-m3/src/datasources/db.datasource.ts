@@ -5,11 +5,11 @@ const config = {
   name: 'db',
   connector: 'mysql',
   url: '',
-  host: 'localhost',
+  host: process.env.DB_HOST || 'localhost', 
   port: 3306,
-  user: 'root',
-  password: 'Igor1234!',
-  database: 'school'
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'Igor1234!',
+  database: process.env.DB_NAME || 'school'
 };
 
 // Observe application's life cycle to disconnect the datasource when
