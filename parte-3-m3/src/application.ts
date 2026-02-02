@@ -25,6 +25,7 @@ export class Parte3M3Application extends BootMixin(
       optionsSuccessStatus: 204,
       maxAge: 86400,
       credentials: true,
+      exposedHeaders: ['X-Total-Count', 'Content-Range'],
     };
 
     // Set up the custom sequence
