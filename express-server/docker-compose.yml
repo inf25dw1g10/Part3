@@ -7,6 +7,7 @@ services:
     image: inf24dw1g10/mysql-db:m3
     container_name: mysql-db
     restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3306:3306"
     volumes:
