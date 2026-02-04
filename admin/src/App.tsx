@@ -8,61 +8,99 @@ import {
 import simpleRestProvider from "ra-data-simple-rest";
 import { Dashboard } from "./Dashboard";
 
-// Configuração do Provider Base
 const baseProvider = simpleRestProvider("http://localhost:8080");
 
-// DataProvider Customizado com lógica Async/Await (Mais estável)
+
 const dataProvider: DataProvider = {
     ...baseProvider,
     
-    getList: async (resource, params) => {
-        const response = await baseProvider.getList(resource, params);
-        return {
-            ...response,
-            data: response.data.map((item: any) => ({
-                ...item,
-                id: item.id || item.id_aluno || item.id_professor || item.id_sala || item.id_aula || item.id_horario
-            }))
-        };
+    getList: (resource: string) => {
+        return fetch(`http://localhost:8080/${resource}`)
+            .then(res => res.json())
+            .then(data => {
+                const dataWithIds = data.map((item: any) => ({
+                    ...item,
+                    id: item.id_aluno || item.id_professor || item.id_sala || item.id_aula || item.id_horario
+                }));
+                return { data: dataWithIds, total: dataWithIds.length };
+            });
     },
 
-    getOne: async (resource, params) => {
-        const response = await baseProvider.getOne(resource, params);
-        return {
-            ...response,
-            data: { 
-                ...response.data, 
-                id: response.data.id || response.data.id_aluno || response.data.id_professor || response.data.id_sala || response.data.id_aula || response.data.id_horario 
-            }
-        };
+    getOne: (resource: string, params: any) => {
+        return fetch(`http://localhost:8080/${resource}/${params.id}`)
+            .then(res => res.json())
+            .then(data => ({
+                data: { 
+                    ...data, 
+                    id: data.id_aluno || data.id_professor || data.id_sala || data.id_aula || data.id_horario 
+                }
+            }));
     },
 
-    getMany: async (resource, params) => {
-        const response = await baseProvider.getMany(resource, params);
-        return {
-            ...response,
-            data: response.data.map((item: any) => ({
-                ...item,
-                id: item.id || item.id_aluno || item.id_professor || item.id_sala || item.id_aula || item.id_horario
-            }))
-        };
-    },
-
-    getManyReference: async (resource, params) => {
-        // Correção específica para a relação de horários do professor
+    getManyReference: (resource: string, params: any) => {
         if (resource === 'horarios' && params.target === 'id_professor') {
-            const res = await fetch(`http://localhost:8080/professores/${params.id}/horarios`);
-            const data = await res.json();
-            return {
-                data: data.map((item: any) => ({ ...item, id: item.id_horario })),
-                total: data.length,
-            };
+            return fetch(`http://localhost:8080/professores/${params.id}/horarios`)
+                .then(res => res.json())
+                .then(data => ({
+                    data: data.map((item: any) => ({ ...item, id: item.id_horario })),
+                    total: data.length,
+                }));
         }
         return baseProvider.getManyReference(resource, params);
+    },
+
+    getMany: (resource: string, params: any) => {
+        return Promise.all(
+            params.ids.map((id: any) =>
+                fetch(`http://localhost:8080/${resource}/${id}`).then(res => res.json())
+            )
+        ).then(data => ({
+            data: data.map((item: any) => ({
+                ...item,
+                id: item.id_aluno || item.id_professor || item.id_sala || item.id_aula || item.id_horario
+            }))
+        }));
+    },
+
+    update: (resource: string, params: any) => {
+        return fetch(`http://localhost:8080/${resource}/${params.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(params.data),
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then(res => res.json())
+        .then(data => ({ data: { ...data, id: params.id } }));
+    },
+
+    create: (resource: string, params: any) => {
+        return fetch(`http://localhost:8080/${resource}`, {
+            method: 'POST',
+            body: JSON.stringify(params.data),
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then(res => res.json())
+        .then(data => ({ data: { ...data, id: data.id_aluno || data.id_professor || data.id_sala || data.id_aula || data.id_horario } }));
+    },
+
+    delete: (resource: string, params: any) => {
+        return fetch(`http://localhost:8080/${resource}/${params.id}`, {
+            method: 'DELETE',
+        })
+        .then(() => ({ data: { id: params.id } as any }));
+    },
+
+    deleteMany: (resource: string, params: any) => {
+        return Promise.all(
+            params.ids.map((id: any) =>
+                fetch(`http://localhost:8080/${resource}/${id}`, {
+                    method: 'DELETE',
+                })
+            )
+        ).then(() => ({ data: params.ids }));
     }
 };
 
-// --- COMPONENTES DE INTERFACE ---
+// --- COMPONENTES (Corrigidos para evitar erros de sintaxe JSX) ---
 
 const ProfessorShow = () => (
     <Show>
@@ -163,8 +201,6 @@ const HorarioList = () => (<List><Datagrid rowClick="edit"><TextField source="di
 const HorarioEdit = () => (<Edit><SimpleForm><TextInput source="dia_semana" /><TextInput source="hora_inicio" /><TextInput source="hora_fim" /><ReferenceInput source="id_professor" reference="professores"><SelectInput optionText="nome" /></ReferenceInput><ReferenceInput source="id_sala" reference="salas"><SelectInput optionText="nome" /></ReferenceInput><ReferenceInput source="id_aula" reference="aulas"><SelectInput optionText="disciplina" /></ReferenceInput></SimpleForm></Edit>);
 const HorarioCreate = () => (<Create><SimpleForm><TextInput source="dia_semana" /><TextInput source="hora_inicio" /><TextInput source="hora_fim" /><ReferenceInput source="id_professor" reference="professores"><SelectInput optionText="nome" /></ReferenceInput><ReferenceInput source="id_sala" reference="salas"><SelectInput optionText="nome" /></ReferenceInput><ReferenceInput source="id_aula" reference="aulas"><SelectInput optionText="disciplina" /></ReferenceInput></SimpleForm></Create>);
 
-// --- APP PRINCIPAL ---
-
 export const App = () => (
   <Admin dashboard={Dashboard} dataProvider={dataProvider}>
     <Resource name="alunos" list={AlunoList} edit={AlunoEdit} create={AlunoCreate} />
@@ -174,5 +210,4 @@ export const App = () => (
     <Resource name="horarios" list={HorarioList} edit={HorarioEdit} create={HorarioCreate} />
   </Admin>
 );
-
 export default App;
