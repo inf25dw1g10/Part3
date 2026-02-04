@@ -102,6 +102,7 @@ Para colocar todo o ecossistema em funcionamento (Base de dados + API + Frontend
  cd express-server
  docker compose up -d
  ```
+ A Api fica disponível em `http://localhost:8080` e o Backoffice em `http://localhost:3001`.
 
  ## 7. Testes e Verificação de Qualidade
 
@@ -113,8 +114,7 @@ Para colocar todo o ecossistema em funcionamento (Base de dados + API + Frontend
 
 ### Evidências de Funcionamento (Prints)
 Nesta secção, apresentam-se as capturas de ecrã que comprovam a integração total do sistema:
-<img width="390" height="235" alt="Screenshot 2026-02-03 152428" src="https://github.com/user-attachments/assets/1f5ef745-563d-4636-96ba-4d9ec1e16f3e" /> <img width="390" height="397" alt="Screenshot 2026-02-03 152506" src="https://github.com/user-attachments/assets/dc1562f7-9d9c-4fcb-bda0-c4d4e348cb44" />
-
+<div style="display: flex; gap: 20px; justify-content: center; align-items: center;"> <img src="https://github.com/user-attachments/assets/dc1562f7-9d9c-4fcb-bda0-c4d4e348cb44" alt="Screenshot 1" width="390" /> <img src="https://github.com/user-attachments/assets/1f5ef745-563d-4636-96ba-4d9ec1e16f3e" alt="Screenshot 2" width="390" /> </div>
 
 
 ## 8. Utilização de Inteligência Artificial
