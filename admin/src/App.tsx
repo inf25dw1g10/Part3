@@ -29,20 +29,24 @@ const dataProvider: any = {
             .then(data => ({ data: data.map(mapId) })),
 
     getManyReference: (resource: string, params: any) => {
-        const url = (resource === 'horarios' && params.target === 'id_professor')
-            ? `${apiUrl}/professores/${params.id}/horarios`
-            : `${apiUrl}/${resource}?${params.target}=${params.id}`;
-        
+        const url = `${apiUrl}/${resource}?${params.target}=${params.id}`;
         return fetch(url).then(res => res.json())
             .then(data => ({ data: data.map(mapId), total: data.length }));
     },
 
-    update: (resource: string, params: any) => 
-        fetch(`${apiUrl}/${resource}/${params.id}`, {
+    update: (resource: string, params: any) => {
+        // REMOVE O ID DO CORPO PARA EVITAR ERRO 422
+        const { id, id_aluno, id_professor, id_sala, id_aula, id_horario, ...dataToSend } = params.data;
+        
+        return fetch(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PATCH',
-            body: JSON.stringify(params.data),
+            body: JSON.stringify(dataToSend), // Enviamos apenas o que mudou, sem o ID
             headers: { 'Content-Type': 'application/json' },
-        }).then(res => res.json()).then(data => ({ data: { ...data, id: params.id } })),
+        }).then(res => {
+            if (!res.ok) return res.json().then(err => { throw new Error(err.error?.message || 'Erro 422/500') });
+            return res.status === 204 ? { data: params.data } : res.json().then(data => ({ data: mapId(data) }));
+        });
+    },
 
     create: (resource: string, params: any) => 
         fetch(`${apiUrl}/${resource}`, {
