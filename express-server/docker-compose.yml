@@ -4,7 +4,7 @@ services:
   mysql-db:
     # Build local para garantir que o school.sql é incluído
     build: ../mysql-db 
-    image: inf24dw1g10/mysql-db:m3
+    image: inf25dw1g10/mysql-db:m3
     container_name: mysql-db
     restart: always
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -17,7 +17,7 @@ services:
 
   api-horarios:
     build: ../parte-3-m3 # Caminho para a pasta da API Loopback
-    image: inf24dw1g10/api-horarios:m3
+    image: inf25dw1g10/api-horarios:m3
     container_name: api-horarios
     depends_on:
       - mysql-db
@@ -33,7 +33,7 @@ services:
 
   react-admin:
     build: ../admin
-    image: inf24dw1g10/react-admin:m3
+    image: inf25dw1g10/react-admin:m3
     container_name: react-admin
     ports:
       - "3001:80"
