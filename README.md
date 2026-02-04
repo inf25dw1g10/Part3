@@ -69,7 +69,7 @@ O frontend foi desenvolvido com **React-Admin**, consumindo diretamente a API Lo
 ###  DataProvider Customizado
 O maior desafio nesta camada foi a comunicação entre o React-Admin (que espera um formato de dados específico) e o LoopBack 4. Para resolver isto, implementámos um `dataProvider` customizado que:
 
-* **Mapeamento de IDs:** Como a base de dados utiliza chaves primárias específicas (ex: `id_aluno`, `id_professor`), o provider foi programado para injetar uma propriedade `id` genérica em cada registo, garantindo a compatibilidade com os componentes do React-Admin.
+* **Mapeamento de IDs:** Como a base de dados utiliza chaves primárias específicas (ex: `id_aluno`, `id_professor`), foi criada uma função `mapId()` que converte qualquer registo para o formato esperado pelo React‑Admin, adicionando sempre a propriedade `id`.
 * **Comunicação Direta:** Configurámos o `fetch` para apontar diretamente para a porta exposta pelo Docker (`http://localhost:8080`), permitindo operações assíncronas em tempo real.
 
 ### Funcionalidades principais:
