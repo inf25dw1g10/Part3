@@ -102,7 +102,7 @@ Para colocar todo o ecossistema em funcionamento (Base de dados + API + Frontend
  cd express-server
  docker compose up -d
  ```
- A Api fica disponível em `http://localhost:8080` e o Backoffice em `http://localhost:3001`.
+ A Api fica disponível em `http://localhost:8080/explorer` e o Backoffice em `http://localhost:3001`.
 
  ## 7. Testes e Verificação de Qualidade
 
@@ -132,6 +132,6 @@ Todo o código foi revisto, compreendido e adaptado pelo aluno antes da sua inte
 ## 9. Conclusão
 A Parte 3 do projeto permitiu consolidar conhecimentos de **desenvolvimento Full-Stack**, integrando backend, frontend e base de dados num ambiente profissional e escalável.
 
-A utilização do **LoopBack 4** trouxe maior organização e robustez à API, enquanto o **React-Admin** possibilitou uma interface administrativa funcional e intuitiva. A orquestração com **Docker** garantiu portabilidade e facilidade de execução.
+A utilização do **LoopBack 4** trouxe maior organização e robustez à API, enquanto o **React-Admin** possibilitou uma interface administrativa funcional e intuitiva. A utilização do **Docker** revelou limitações importantes: certas configurações que funcionam normalmente no meu ambiente local deixaram de funcionar quando executadas dentro de containers.
 
-O resultado final é um sistema completo, modular e alinhado com práticas modernas de desenvolvimento web.
+Apesar destes desafios, permitiu-me compreender na prática as dificuldades reais de portabilidade e compatibilidade entre ambientes.
