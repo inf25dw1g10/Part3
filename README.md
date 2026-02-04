@@ -127,7 +127,7 @@ Foram utilizadas ferramentas de Inteligência Artificial como apoio ao desenvolv
 - validação de sintaxe
 - auxílio na estruturação inicial de código
 
-Todo o código foi revisto, compreendido e adaptado pelo aluno antes da sua integração no projeto final.
+
 
 ## 9. Conclusão
 A Parte 3 do projeto permitiu consolidar conhecimentos de **desenvolvimento Full-Stack**, integrando backend, frontend e base de dados num ambiente profissional e escalável.
